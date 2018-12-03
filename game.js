@@ -11,7 +11,7 @@ class Vector {
       throw new Error('Можно прибавлять к вектору только вектор типа Vector');
     }
 
-    return new Vector((this.x + vector.x), (this.y + vector.y));
+    return new Vector(this.x + vector.x, this.y + vector.y);
   }
 
   times(multiplier) {
@@ -62,8 +62,8 @@ class Actor {
       return false;
     }
 
-    return (actor.left < this.right && this.left < actor.right &&
-      actor.top < this.bottom && this.top < actor.bottom);
+    return actor.left < this.right && this.left < actor.right &&
+      actor.top < this.bottom && this.top < actor.bottom;
   }
 }
 
@@ -152,7 +152,7 @@ class LevelParser {
   }
 
   actorFromSymbol(char) {
-    return char ? this.actorsDict[char] : undefined;
+    return this.actorsDict[char];
   }
 
   obstacleFromSymbol(char) {
@@ -247,9 +247,8 @@ class FireRain extends Fireball {
 
 class Coin extends Actor {
   constructor(pos = new Vector(0, 0)) {
-    pos = pos.plus(new Vector(0.2, 0.1));
-    super(pos, new Vector(0.6, 0.6));
-    this.startPos = pos;
+    super(pos.plus(new Vector(0.2, 0.1)), new Vector(0.6, 0.6));
+    this.startPos = this.pos;
     this.springSpeed = 8;
     this.springDist = 0.07;
     this.spring = Math.random() * 2 * Math.PI;
@@ -280,8 +279,7 @@ class Coin extends Actor {
 
 class Player extends Actor {
   constructor(pos = new Vector(0, 0)) {
-    pos = pos.plus(new Vector(0, -0.5));
-    super(pos, new Vector(0.8, 1.5));
+    super(pos.plus(new Vector(0, -0.5)), new Vector(0.8, 1.5), new Vector(0, 0));
   }
 
   get type() {
